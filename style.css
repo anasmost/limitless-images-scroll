@@ -1,0 +1,71 @@
+/* Imports */
+@import url("https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap");
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Zen Dots", cursive, sans-serif;
+  background: rgb(244, 245, 245);
+}
+
+/* Title */
+h1 {
+  text-align: center;
+  margin: 25px auto;
+  padding: 0 10px;
+  font-size: 25px;
+  letter-spacing: 3px;
+}
+/* Loader */
+.loader {
+  position: fixed;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Image Container */
+.image-container {
+  margin: 10px 30%;
+}
+.image-container a {
+  display: inline-block;
+  margin-bottom: 5px;
+}
+.image-container img {
+  width: 100%;
+}
+.image-container p {
+  margin: 0;
+  padding: 0.5rem;
+  background-color: rgba(244, 245, 245, 0.3);
+  color: black;
+  font-size: 0.75rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+/* Media Query: Smartphone */
+@media screen and (max-width: 600px) {
+  h1 {
+    font-size: 20px;
+  }
+
+  .image-container {
+    margin: 10px;
+  }
+}
+/* Media Query: Tablet */
+@media screen and (min-width: 601px) and (max-width: 900px) {
+  .image-container {
+    margin: 10px 20%;
+  }
+}
