@@ -49,17 +49,17 @@ function displayPhotos() {
     }
     // Add event listener to signal photos loaded
     img.addEventListener('load', photoLoaded);
-    // Create <p> description for photo
-    const p = document.createElement('p');
-    p.textContent = photo.alt_description;
     // Put <img> & <p> inside <a>, then insert them inside imageContainer element
-    a.append(img, p);
+    a.appendChild(img);
     imageContainer.appendChild(a);
-    img.parentElement;
   });
 }
 function photoLoaded(e) {
   photosLoaded++;
+  // Create <p> description for photo
+  const p = document.createElement('p');
+  p.textContent = e.target.getAttribute('title');
+  e.target.parentElement.appendChild(p);
   if (photosLoaded === totalPhotos) {
     loader.hidden = true;
     photosLoaded = 0;
@@ -95,7 +95,6 @@ function adjustImageCount() {
   } else if (imageCount != imageLeastCount) {
     imageCount /= 2;
   }
-  console.log(imageCount);
 }
 
 // On Load
