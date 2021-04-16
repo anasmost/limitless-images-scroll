@@ -6,20 +6,20 @@ let readyToFetch = false;
 let photosLoaded = 0;
 let totalPhotos = 0;
 let photos = null;
-let imageLeastCount = 5;
 // UX Vars
+const chunk = 5;
 const loadingDurationLimit = 2000; //milliseconds
 let loadingStartDate = null;
 // Unsplash API Params
-const imageCount = imageLeastCount;
+let imageCount = chunk;
 const apiKey = 'uu0Vs8X5-ft7BLUFtqLlSZphmzXqkKXgQfedDt0Sci4';
-const apiUrl = `https://api.unsplash.com/photos/?client_id=${apiKey}&per_page=${imageCount}`;
-
+const apiUrl = `https://api.unsplash.com/photos/?client_id=${apiKey}`;
 // Featuring Functions
 async function getPhotos() {
+  const apiUrlAdjusted = `${apiUrl}&per_page=${imageCount}`;
   try {
     loader.hidden = false;
-    const res = await fetch(apiUrl);
+    const res = await fetch(apiUrlAdjusted);
     photos = await res.json();
     displayPhotos();
   } catch (err) {
@@ -28,7 +28,7 @@ async function getPhotos() {
 }
 function displayPhotos() {
   totalPhotos = photos.length;
-  photos.forEach(photo => {
+  photos.forEach((photo, idx) => {
     // Create <a> to link to Unsplash
     const a = document.createElement('a');
     setAttributes(a, {
@@ -44,8 +44,8 @@ function displayPhotos() {
       title: photo.alt_description,
     });
     // Add event listeners for first <img> DOMContentLoaded
-    if (photosLoaded == 0) {
-      img.addEventListener('DOMContentLoaded', loadingStarted);
+    if (idx == 0) {
+      img.addEventListener('DOMNodeInserted', loadingStarted);
     }
     // Add event listener to signal photos loaded
     img.addEventListener('load', photoLoaded);
@@ -68,8 +68,8 @@ function photoLoaded(e) {
   }
   e.target.removeEventListener('load', photoLoaded);
 }
-function loadingStarted() {
-  loadingStartDate = date.now();
+function loadingStarted(e) {
+  loadingStartDate = Date.now();
   e.target.removeEventListener('DOMContentLoaded', loadingStarted);
 }
 // Helper Functions
@@ -91,9 +91,9 @@ window.addEventListener('scroll', () => {
 function adjustImageCount() {
   const loadingDuration = Date.now() - loadingStartDate;
   if (loadingDuration < loadingDurationLimit) {
-    imageCount *= 2;
-  } else if (imageCount != imageLeastCount) {
-    imageCount /= 2;
+    imageCount += chunk;
+  } else if (imageCount != chunk) {
+    imageCount -= chunk;
   }
 }
 
